@@ -1,0 +1,113 @@
+/* Container principal do dashboard */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Cabeçalho */
+.dashboard__titulo {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.dashboard__subtitulo {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Grid de cards de estatísticas — 4 colunas */
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Card individual de estatística */
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color var(--transition);
+}
+
+.stat-card:hover {
+  border-color: var(--color-primary);
+}
+
+.stat-card__label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-card__value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+/* Valor do rank em roxo */
+.stat-card__value--rank {
+  font-size: 22px;
+  color: var(--color-primary);
+}
+
+.stat-card__sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Barra de XP dentro do card de nível */
+.stat-card__bar {
+  height: 4px;
+  background-color: var(--color-surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.stat-card__bar-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  transition: width var(--transition);
+}
+
+/* Bloco de progresso diário */
+.dashboard__progresso {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashboard__progresso-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard__progresso-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.dashboard__progresso-sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* Porcentagem em r

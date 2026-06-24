@@ -1,0 +1,167 @@
+/* Container principal */
+.conquistas {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cabeçalho */
+.conquistas__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.conquistas__header-icon {
+  font-size: 32px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.conquistas__titulo {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.conquistas__subtitulo {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Contador no canto direito */
+.conquistas__contador {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+/* Lista de conquistas */
+.conquistas__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card de conquista */
+.conquista {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: border-color var(--transition);
+}
+
+.conquista:hover {
+  border-color: var(--color-primary);
+}
+
+/* Conquista concluída */
+.conquista--concluida {
+  background-color: var(--color-surface-2);
+  border-color: var(--color-primary);
+}
+
+/* Ícone da conquista */
+.conquista__icone {
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Ícone ativo quando concluída */
+.conquista__icone--ativo {
+  background-color: #2d1a4e;
+  border-color: var(--color-primary);
+}
+
+/* Corpo da conquista */
+.conquista__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.conquista__topo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.conquista__titulo {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Badge verde */
+.conquista__badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #1a3a2a;
+  color: #4caf50;
+}
+
+.conquista__descricao {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* Barra de progresso */
+.conquista__progresso {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.conquista__progresso-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.conquista__bar {
+  height: 4px;
+  background-color: var(--color-bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.conquista__bar-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.conquista__data {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}

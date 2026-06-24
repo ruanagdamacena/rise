@@ -1,0 +1,24 @@
+/* Container — posição relativa para centralizar o texto */
+.circular-progress {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* SVG fica por baixo */
+.circular-progress svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Texto da porcentagem centralizado sobre o SVG */
+.circular-progress__texto {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+}

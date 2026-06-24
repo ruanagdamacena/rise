@@ -1,0 +1,143 @@
+/* Layout de duas colunas */
+.cadastro {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Lado esquerdo — fundo roxo decorativo */
+.cadastro__esquerda {
+  flex: 1;
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d0a4e 50%, #1a0a2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cadastro__esquerda::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #b03fff33 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cadastro__esquerda-content {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+}
+
+.cadastro__brand {
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.cadastro__brand-slogan {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  margin-bottom: 32px;
+}
+
+.cadastro__brand-desc {
+  font-size: 16px;
+  color: var(--color-secondary);
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+/* Lado direito — formulário */
+.cadastro__direita {
+  width: 480px;
+  background-color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.cadastro__box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cadastro__titulo {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cadastro__subtitulo {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-top: -12px;
+}
+
+.cadastro__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cadastro__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.cadastro__input {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.cadastro__input:focus {
+  border-color: var(--color-primary);
+}
+
+.cadastro__btn {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition);
+  margin-top: 4px;
+}
+
+.cadastro__btn:hover {
+  background-color: var(--color-primary-dim);
+}
+
+.cadastro__login {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.cadastro__link {
+  color: var(--color-primary);
+  font-weight: 600;
+  transition: opacity var(--transition);
+}
+
+.cadastro__link:hover {
+  opacity: 0.8;
+}

@@ -1,0 +1,172 @@
+/* Container principal da sidebar */
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background-color: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid var(--color-border);
+}
+
+/* Logo */
+.sidebar__logo {
+  margin-bottom: 24px;
+}
+
+.sidebar__logo-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.sidebar__logo-slogan {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* Perfil */
+.sidebar__profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* Avatar circular com inicial do nome */
+.sidebar__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-surface-2);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-text);
+}
+
+.sidebar__profile-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  display: block;
+}
+
+.sidebar__profile-level {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Barra de XP */
+.sidebar__xp {
+  margin-bottom: 16px;
+}
+
+.sidebar__xp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+/* Trilho da barra de XP */
+.sidebar__xp-bar {
+  height: 6px;
+  background-color: var(--color-surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+/* Preenchimento roxo da barra de XP */
+.sidebar__xp-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  transition: width var(--transition);
+}
+
+/* Badges de rank e gold */
+.sidebar__badges {
+  display: flex;
+  gap: 8px;
+}
+
+.sidebar__badge {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* Linha divisória */
+.sidebar__divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 8px 0;
+}
+
+/* Navegação */
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  flex: 1; /* Empurra o footer para baixo */
+}
+
+/* Links de navegação */
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  transition: all var(--transition);
+}
+
+.sidebar__link:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+/* Link ativo — página atual */
+.sidebar__link--active {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.sidebar__link--active:hover {
+  background-color: var(--color-primary-dim);
+  color: #fff;
+}
+
+/* Footer com botão sair */
+.sidebar__footer {
+  margin-top: auto;
+}
+
+.sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  width: 100%;
+  transition: all var(--transition);
+}
+
+.sidebar__logout:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+}

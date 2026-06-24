@@ -1,0 +1,39 @@
+:root {
+  /* Cor roxa principal — usada em botões, destaques e elementos ativos */
+  --color-primary: #b03fff;
+
+  /* Versão mais escura do roxo — usada em hover e estados pressionados */
+  --color-primary-dim: #7e2db5;
+
+  /* Cor clara/creme — usada em textos e fundos secundários */
+  --color-secondary: #f1efdf;
+
+  /* Cor de fundo principal da aplicação — quase preto */
+  --color-bg: #0e0e0f;
+
+  /* Fundo dos cards e painéis — um pouco mais claro que o fundo */
+  --color-surface: #18181b;
+
+  /* Fundo de elementos dentro dos cards — terceiro nível de profundidade */
+  --color-surface-2: #222226;
+
+  /* Cor das bordas e divisores */
+  --color-border: #2a2a2f;
+
+  /* Cor principal dos textos */
+  --color-text: #f1efdf;
+
+  /* Cor de textos secundários, labels e informações menos importantes */
+  --color-text-muted: #8a8a9a;
+
+  /* Fonte principal do projeto — Inter é moderna e legível */
+  --font-main: 'Inter', 'Segoe UI', sans-serif;
+
+  /* Tamanhos de arredondamento dos cantos dos elementos */
+  --radius-sm: 8px;   /* Pequeno — inputs, badges */
+  --radius-md: 12px;  /* Médio — cards menores */
+  --radius-lg: 16px;  /* Grande — cards principais */
+
+  /* Velocidade padrão das animações e transições */
+  --transition: 0.2s ease;
+}

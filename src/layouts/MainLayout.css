@@ -1,0 +1,13 @@
+/* Layout principal — sidebar fixa + conteúdo ao lado */
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Conteúdo principal — começa após a sidebar */
+.main-layout__content {
+  margin-left: 220px; /* Mesmo tamanho da sidebar */
+  flex: 1;
+  padding: 32px;
+  background-color: var(--color-bg);
+}

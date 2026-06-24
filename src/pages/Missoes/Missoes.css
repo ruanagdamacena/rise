@@ -1,0 +1,142 @@
+/* Container principal */
+.missoes {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cabeçalho */
+.missoes__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.missoes__header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Ícone do cabeçalho */
+.missoes__header-icon {
+  font-size: 32px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.missoes__titulo {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.missoes__subtitulo {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Botão nova missão */
+.missoes__btn-nova {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition);
+}
+
+.missoes__btn-nova:hover {
+  background-color: var(--color-primary-dim);
+}
+
+/* Card de progresso */
+.missoes__progresso {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.missoes__progresso-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.missoes__progresso-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.missoes__progresso-valor {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.missoes__progresso-sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.missoes__progresso-pct {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Filtros */
+.missoes__filtros {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.missoes__filtros-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-right: 4px;
+}
+
+.missoes__filtro {
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition);
+}
+
+.missoes__filtro:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* Filtro ativo */
+.missoes__filtro--ativo {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+/* Grid de missões em 2 colunas */
+.missoes__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}

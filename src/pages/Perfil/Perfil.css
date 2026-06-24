@@ -1,0 +1,335 @@
+/* Container principal */
+.perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cabeçalho */
+.perfil__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.perfil__header-icon {
+  font-size: 32px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perfil__titulo {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.perfil__subtitulo {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Layout de duas colunas */
+.perfil__content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Card do usuário */
+.perfil__card-usuario {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+/* Avatar grande */
+.perfil__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--color-surface-2);
+  border: 3px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.perfil__nome {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.perfil__membro {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.perfil__rank {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* XP no card do usuário */
+.perfil__xp {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.perfil__xp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.perfil__xp-bar {
+  height: 6px;
+  background-color: var(--color-surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.perfil__xp-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  transition: width var(--transition);
+}
+
+/* Botão editar perfil */
+.perfil__btn-editar {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  margin-top: 8px;
+  transition: background-color var(--transition);
+}
+
+.perfil__btn-editar:hover {
+  background-color: var(--color-primary-dim);
+}
+
+/* Card de estatísticas */
+.perfil__estatisticas {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.perfil__estatisticas-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 16px;
+}
+
+/* Grid 3x2 de estatísticas */
+.perfil__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.perfil__stat-card {
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color var(--transition);
+}
+
+.perfil__stat-card:hover {
+  border-color: var(--color-primary);
+}
+
+.perfil__stat-icone {
+  font-size: 20px;
+}
+
+.perfil__stat-valor {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Valor em destaque — rank em roxo */
+.perfil__stat-valor--destaque {
+  color: var(--color-primary);
+  font-size: 18px;
+}
+
+.perfil__stat-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Seção de conquistas */
+.perfil__conquistas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.perfil__conquistas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perfil__conquistas-titulo {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.perfil__conquistas-sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.perfil__conquistas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card de conquista */
+.conquista-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: border-color var(--transition);
+}
+
+.conquista-card:hover {
+  border-color: var(--color-primary);
+}
+
+/* Conquista concluída com fundo levemente destacado */
+.conquista-card--concluida {
+  background-color: var(--color-surface-2);
+  border-color: var(--color-primary);
+}
+
+.conquista-card__icone {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.conquista-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.conquista-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.conquista-card__titulo {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Badge verde de conquista completa */
+.conquista-card__badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #1a3a2a;
+  color: #4caf50;
+}
+
+.conquista-card__descricao {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.conquista-card__data {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Barra de progresso da conquista */
+.conquista-card__progresso {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.conquista-card__progresso-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.conquista-card__bar {
+  height: 4px;
+  background-color: var(--color-surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.conquista-card__bar-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 999px;
+}
+
+/* Botão ver todas conquistas */
+.perfil__conquistas-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.perfil__btn-todas {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  transition: color var(--transition);
+}
+
+.perfil__btn-todas:hover {
+  color: var(--color-text);
+}
