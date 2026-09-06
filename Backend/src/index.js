@@ -3,8 +3,8 @@ const express = require('express');
 const cors = require('cors');
 
 const authRoutes = require('./routes/authRoutes');
+const missoesRoutes = require('./routes/missoesRoutes');
 // const usuarioRoutes = require('./routes/usuarioRoutes');   // próximo passo
-// const missoesRoutes = require('./routes/missoesRoutes');   // próximo passo
 // const conquistasRoutes = require('./routes/conquistasRoutes'); // próximo passo
 
 const app = express();
@@ -14,8 +14,8 @@ app.use(express.json());
 
 // Rotas
 app.use('/api/auth', authRoutes);
+app.use('/api/missoes', missoesRoutes);
 // app.use('/api/usuario', usuarioRoutes);
-// app.use('/api/missoes', missoesRoutes);
 // app.use('/api/conquistas', conquistasRoutes);
 
 // Rota simples para conferir se o servidor está de pé

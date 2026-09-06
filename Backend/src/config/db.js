@@ -1,8 +1,14 @@
-// Cria um "pool" de conexões com o MySQL.
-// Um pool é mais eficiente que abrir uma conexão nova a cada requisição.
+
 
 require('dotenv').config();
 const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path');
+
+
+const usarSSL = process.env.DB_SSL === 'true';
+const caminhoCA = path.join(__dirname, 'ca.pem');
+const temArquivoCA = usarSSL && fs.existsSync(caminhoCA);
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -13,6 +19,11 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  ...(usarSSL && {
+    ssl: temArquivoCA
+      ? { ca: fs.readFileSync(caminhoCA) }
+      : { rejectUnauthorized: true },
+  }),
 });
 
 module.exports = pool;
