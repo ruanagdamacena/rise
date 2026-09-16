@@ -58,9 +58,9 @@ async function criar(req, res) {
 }
 
 // PATCH /api/missoes/:id/concluir
-// Esta é a rota mais delicada: mexe em duas tabelas (missoes e usuarios)
-// numa transação só, para garantir que nunca fique "pela metade" (ex: missão
-// marcada como concluída mas XP não foi somado, por causa de uma falha no meio).
+// Mexe em duas tabelas (missoes e usuarios) numa transação só, para garantir
+// que nunca fique "pela metade" (ex: missão marcada como concluída mas XP
+// não foi somado, por causa de uma falha no meio).
 async function concluir(req, res) {
   const conexao = await pool.getConnection();
   try {
@@ -85,7 +85,15 @@ async function concluir(req, res) {
     const usuario = usuariosEncontrados[0];
 
     const progressoXp = aplicarXp(usuario, missao.xp);
-    const progressoSequencia = calcularSequencia(usuario.sequencia, usuario.ultima_missao_em);
+
+    // A sequência (streak) só avança com missões DIÁRIAS.
+    // Missões Semanais ou Especiais dão XP/Gold normalmente, mas não contam
+    // para "quantos dias seguidos" o usuário manteve o ritmo.
+    const progressoSequencia =
+      missao.tipo === 'Diária'
+        ? calcularSequencia(usuario.sequencia, usuario.ultima_missao_em)
+        : { sequencia: usuario.sequencia, ultima_missao_em: usuario.ultima_missao_em };
+
     const novoGold = usuario.gold + missao.gold;
 
     await conexao.beginTransaction();
