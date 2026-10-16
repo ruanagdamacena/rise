@@ -1,21 +1,41 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 import './Login.css'
 
 function Login() {
   const [form, setForm] = useState({ email: '', senha: '' })
+  const [erro, setErro] = useState('')
+  const [carregando, setCarregando] = useState(false)
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   function handleChange(campo, valor) {
     setForm({ ...form, [campo]: valor })
   }
 
-  const navigate = useNavigate()
+  async function handleSubmit() {
+    setErro('')
 
-function handleSubmit() {
-  // Futuramente vai validar com o backend
-  // Por enquanto redireciona direto para o dashboard
-  navigate('/')
-}
+    if (!form.email || !form.senha) {
+      setErro('Preencha o email e a senha.')
+      return
+    }
+
+    setCarregando(true)
+    try {
+      await login(form.email, form.senha)
+      navigate('/')
+    } catch (e) {
+      setErro(
+        e.message === 'Failed to fetch'
+          ? 'Não foi possível conectar ao servidor.'
+          : e.message
+      )
+    } finally {
+      setCarregando(false)
+    }
+  }
 
   return (
     <div className="login">
@@ -62,9 +82,16 @@ function handleSubmit() {
             />
           </div>
 
+          {/* Mensagem de erro (só aparece quando há erro) */}
+          {erro && (
+            <p style={{ color: '#f87171', fontSize: '0.85rem', margin: '0 0 12px' }}>
+              {erro}
+            </p>
+          )}
+
           {/* Botão entrar */}
-          <button className="login__btn" onClick={handleSubmit}>
-            Entrar
+          <button className="login__btn" onClick={handleSubmit} disabled={carregando}>
+            {carregando ? 'Entrando...' : 'Entrar'}
           </button>
 
           {/* Link para cadastro */}

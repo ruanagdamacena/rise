@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 import './Cadastro.css'
 
 function Cadastro() {
@@ -9,21 +10,45 @@ function Cadastro() {
     senha: '',
     confirmarSenha: '',
   })
+  const [erro, setErro] = useState('')
+  const [carregando, setCarregando] = useState(false)
+  const { cadastrar } = useAuth()
+  const navigate = useNavigate()
 
   function handleChange(campo, valor) {
     setForm({ ...form, [campo]: valor })
   }
 
-const navigate = useNavigate()
+  async function handleSubmit() {
+    setErro('')
 
-function handleSubmit() {
-  if (form.senha !== form.confirmarSenha) {
-    alert('As senhas não coincidem!')
-    return
+    if (!form.nome || !form.email || !form.senha) {
+      setErro('Preencha nome, email e senha.')
+      return
+    }
+    if (form.senha.length < 6) {
+      setErro('A senha precisa ter pelo menos 6 caracteres.')
+      return
+    }
+    if (form.senha !== form.confirmarSenha) {
+      setErro('As senhas não coincidem!')
+      return
+    }
+
+    setCarregando(true)
+    try {
+      await cadastrar(form.nome, form.email, form.senha)
+      navigate('/')
+    } catch (e) {
+      setErro(
+        e.message === 'Failed to fetch'
+          ? 'Não foi possível conectar ao servidor.'
+          : e.message
+      )
+    } finally {
+      setCarregando(false)
+    }
   }
-  // Futuramente vai conectar com o backend
-  navigate('/')
-}
 
   return (
     <div className="cadastro">
@@ -94,9 +119,16 @@ function handleSubmit() {
             />
           </div>
 
+          {/* Mensagem de erro (só aparece quando há erro) */}
+          {erro && (
+            <p style={{ color: '#f87171', fontSize: '0.85rem', margin: '0 0 12px' }}>
+              {erro}
+            </p>
+          )}
+
           {/* Botão criar conta */}
-          <button className="cadastro__btn" onClick={handleSubmit}>
-            Criar conta
+          <button className="cadastro__btn" onClick={handleSubmit} disabled={carregando}>
+            {carregando ? 'Criando...' : 'Criar conta'}
           </button>
 
           {/* Link para login */}
