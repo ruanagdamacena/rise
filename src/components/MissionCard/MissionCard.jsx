@@ -1,3 +1,4 @@
+import Icon from '../Icon'
 import { useRef } from 'react'
 import './MissionCard.css'
 
@@ -8,10 +9,12 @@ const corDificuldade = {
   'Missão': '#b03fff',
 }
 
-function MissionCard({ missao, onConcluir }) {
+function MissionCard({ missao, onConcluir, onExcluir, ocupado = false }) {
   const btnRef = useRef(null)
 
-  function handleConcluir() {
+  async function handleConcluir() {
+    const sucesso = await onConcluir(missao.id)
+    if (sucesso === false) return
     import('canvas-confetti').then(module => {
       module.default({
         particleCount: 80,
@@ -19,8 +22,7 @@ function MissionCard({ missao, onConcluir }) {
         origin: { y: 0.6 },
         colors: ['#b03fff', '#f1efdf', '#ffffff', '#7e2db5'],
       })
-    })
-    onConcluir(missao.id)
+    }).catch(() => {})
   }
 
   return (
@@ -49,8 +51,8 @@ function MissionCard({ missao, onConcluir }) {
         </div>
 
         <div className="mission-card__recompensas">
-          <span>📈 {missao.xp} XP</span>
-          <span>💰 {missao.gold} Gold</span>
+          <span><Icon name="trend"/> {missao.xp} XP</span>
+          <span><Icon name="coin"/> {missao.gold} Gold</span>
         </div>
       </div>
 
@@ -62,10 +64,12 @@ function MissionCard({ missao, onConcluir }) {
             ref={btnRef}
             className="mission-card__btn"
             onClick={handleConcluir}
+            disabled={ocupado}
           >
             Concluir
           </button>
         )}
+        {onExcluir && <button className="mission-card__btn mission-card__btn--excluir" disabled={ocupado} onClick={() => onExcluir(missao.id)}>Excluir</button>}
       </div>
 
     </div>

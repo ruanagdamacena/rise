@@ -18,7 +18,7 @@ function autenticar(req, res, next) {
     // payload contém { id, email } — ver authController.js
     req.usuario = payload;
     next();
-  } catch (erro) {
+  } catch {
     return res.status(401).json({ erro: 'Token inválido ou expirado.' });
   }
 }

@@ -1,74 +1,27 @@
+import { useEffect, useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
+import { requisicao } from '../../services/api'
+import Icon from '../../components/Icon'
 import './Conquistas.css'
 
-const conquistas = [
-  {
-    id: 1,
-    titulo: 'Primeira Sequência',
-    descricao: 'Complete 7 dias em sequência',
-    concluida: true,
-    dataDesbloqueio: '28 Mar 2026',
-    progresso: 7,
-    total: 7,
-  },
-  {
-    id: 2,
-    titulo: 'Mestre da Meditação',
-    descricao: 'Complete 30 missões de meditação',
-    concluida: false,
-    progresso: 12,
-    total: 30,
-  },
-  {
-    id: 3,
-    titulo: 'Corpo em movimento',
-    descricao: 'Complete 20 missões de saúde',
-    concluida: false,
-    progresso: 8,
-    total: 20,
-  },
-  {
-    id: 4,
-    titulo: 'Sede de conhecimento',
-    descricao: 'Complete 25 missões de conhecimento',
-    concluida: false,
-    progresso: 6,
-    total: 25,
-  },
-  {
-    id: 5,
-    titulo: 'Produtividade máxima',
-    descricao: 'Complete 15 missões de produtividade',
-    concluida: false,
-    progresso: 3,
-    total: 15,
-  },
-  {
-    id: 6,
-    titulo: 'Lendário',
-    descricao: 'Alcance o nível 100',
-    concluida: false,
-    progresso: 5,
-    total: 100,
-  },
-  {
-    id: 7,
-    titulo: 'Semana perfeita',
-    descricao: 'Complete todas as missões diárias por 7 dias seguidos',
-    concluida: false,
-    progresso: 3,
-    total: 7,
-  },
-  {
-    id: 8,
-    titulo: 'Colecionador de Gold',
-    descricao: 'Acumule 5000 Gold',
-    concluida: false,
-    progresso: 2152,
-    total: 5000,
-  },
-]
-
 function Conquistas() {
+  const { usuario, token } = useAuth()
+  const [conquistas, setConquistas] = useState([])
+  const [erro, setErro] = useState('')
+  const [carregando, setCarregando] = useState(true)
+  const usuarioId = usuario.id
+  useEffect(() => {
+    const controle = new AbortController()
+    requisicao(`/api/conquistas/${usuarioId}`, { token, signal: controle.signal })
+      .then(setConquistas)
+      .catch(e => {
+        if (e.name === 'AbortError') return
+        if (e.status === 401) { localStorage.removeItem('rise_auth'); window.location.replace('/login'); return }
+        setErro(e.message)
+      })
+      .finally(() => { if (!controle.signal.aborted) setCarregando(false) })
+    return () => controle.abort()
+  }, [usuarioId, token])
   const concluidas = conquistas.filter(c => c.concluida).length
   const total = conquistas.length
 
@@ -77,7 +30,7 @@ function Conquistas() {
 
       {/* Cabeçalho */}
       <div className="conquistas__header">
-        <div className="conquistas__header-icon">🏆</div>
+        <div className="conquistas__header-icon"><Icon name="trophy"/></div>
         <div>
           <h1 className="conquistas__titulo">Conquistas</h1>
           <p className="conquistas__subtitulo">Desbloqueie marcos da sua evolução</p>
@@ -86,9 +39,9 @@ function Conquistas() {
       </div>
 
       {/* Lista de conquistas */}
-      <div className="conquistas__lista">
+      <div className="conquistas__lista">{carregando && <p role="status">Carregando conquistas...</p>}{erro && <p role="alert">{erro} <button onClick={() => window.location.reload()}>Tentar novamente</button></p>}
         {conquistas.map(conquista => {
-          const porcentagem = Math.round((conquista.progresso / conquista.total) * 100)
+          const porcentagem = conquista.total > 0 ? Math.min(100, Math.round((conquista.progresso / conquista.total) * 100)) : 0
 
           return (
             <div
@@ -97,7 +50,7 @@ function Conquistas() {
             >
               {/* Ícone */}
               <div className={`conquista__icone ${conquista.concluida ? 'conquista__icone--ativo' : ''}`}>
-                🎯
+                <Icon name="target"/>
               </div>
 
               {/* Conteúdo */}
@@ -108,7 +61,7 @@ function Conquistas() {
                     <span className="conquista__badge">Completa</span>
                   )}
                 </div>
-                <p className="conquista__descricao">{conquista.descricao}</p>
+                <p className="conquista__descricao">{conquista.descricao}</p>{conquista.metrica === 'semana_perfeita' && <p className="conquista__descricao">Crie ao menos uma diária por dia e conclua todas no próprio dia. Contam apenas dias encerrados; o desbloqueio é verificado na próxima conclusão de missão.</p>}
 
                 {/* Barra de progresso */}
                 <div className="conquista__progresso">
@@ -125,7 +78,7 @@ function Conquistas() {
                 </div>
 
                 {conquista.concluida && (
-                  <p className="conquista__data">Desbloqueada em {conquista.dataDesbloqueio}</p>
+                  <p className="conquista__data">Desbloqueada em {new Date(conquista.desbloqueado_em + 'Z').toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</p>
                 )}
               </div>
 

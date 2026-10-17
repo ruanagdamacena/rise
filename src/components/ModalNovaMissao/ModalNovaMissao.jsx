@@ -6,14 +6,11 @@ const categorias = ['Saúde', 'Conhecimento', 'Produtividade', 'Desenvolvimento 
 const tipos = ['Diária', 'Semanal', 'Especial']
 const dificuldades = ['Fácil', 'Médio', 'Difícil']
 
-// XP e Gold por dificuldade — segue as regras do sistema
-const recompensasPorDificuldade = {
-  'Fácil':  { xp: 10,  gold: 3  },
-  'Médio':  { xp: 25,  gold: 10 },
-  'Difícil':{ xp: 50,  gold: 20 },
-}
 
 function ModalNovaMissao({ onFechar, onCriar }) {
+  const [salvando, setSalvando] = useState(false)
+  const [erro, setErro] = useState('')
+  function fechar() { if (!salvando) onFechar() }
   // Estado do formulário
   const [form, setForm] = useState({
     titulo: '',
@@ -29,27 +26,21 @@ function ModalNovaMissao({ onFechar, onCriar }) {
   }
 
   // Submete o formulário
-  function handleSubmit() {
-    if (!form.titulo.trim()) return // Título obrigatório
-
-    const recompensas = recompensasPorDificuldade[form.dificuldade]
-
-    // Cria o objeto da nova missão
-    const novaMissao = {
-      id: Date.now(), // ID temporário baseado no tempo
-      ...form,
-      xp: recompensas.xp,
-      gold: recompensas.gold,
-      concluida: false,
-    }
-
-    onCriar(novaMissao) // Envia para o componente pai
-    onFechar()          // Fecha o modal
+  async function handleSubmit() {
+    if (salvando) return
+    if (!form.titulo.trim()) { setErro('Preencha o título da missão.'); return }
+    setSalvando(true)
+    setErro('')
+    try {
+      await onCriar({ ...form, titulo: form.titulo.trim() })
+      onFechar()
+    } catch (e) { setErro(e.message) }
+    finally { setSalvando(false) }
   }
 
   return (
     // Fundo escuro ao redor do modal — clica para fechar
-    <div className="modal-overlay" onClick={onFechar}>
+    <div className="modal-overlay" onClick={fechar}>
 
       {/* Para o clique dentro do modal de fechar */}
       <div className="modal" onClick={e => e.stopPropagation()}>
@@ -57,11 +48,11 @@ function ModalNovaMissao({ onFechar, onCriar }) {
         {/* Cabeçalho do modal */}
         <div className="modal__header">
           <h2 className="modal__titulo">Nova Missão</h2>
-          <button className="modal__fechar" onClick={onFechar}>✕</button>
+          <button className="modal__fechar" disabled={salvando} onClick={fechar}>✕</button>
         </div>
 
         {/* Formulário */}
-        <div className="modal__body">
+        <fieldset className="modal__body" disabled={salvando} style={{ border: 0, margin: 0, minWidth: 0 }}>
 
           {/* Título */}
           <div className="modal__campo">
@@ -133,20 +124,19 @@ function ModalNovaMissao({ onFechar, onCriar }) {
 
           {/* Preview das recompensas */}
           <div className="modal__recompensas">
-            <span className="modal__recompensas-label">Recompensas:</span>
-            <span>📈 {recompensasPorDificuldade[form.dificuldade].xp} XP</span>
-            <span>💰 {recompensasPorDificuldade[form.dificuldade].gold} Gold</span>
+            <span>Ganhe XP e Gold de acordo com a dificuldade escolhida.</span>
           </div>
 
-        </div>
+          {erro && <p role="alert">{erro}</p>}
+        </fieldset>
 
         {/* Rodapé com botões */}
         <div className="modal__footer">
-          <button className="modal__btn-cancelar" onClick={onFechar}>
+          <button className="modal__btn-cancelar" disabled={salvando} onClick={fechar}>
             Cancelar
           </button>
-          <button className="modal__btn-criar" onClick={handleSubmit}>
-            Criar Missão
+          <button className="modal__btn-criar" disabled={salvando} onClick={handleSubmit}>
+            {salvando ? 'Salvando...' : 'Criar Missão'}
           </button>
         </div>
 

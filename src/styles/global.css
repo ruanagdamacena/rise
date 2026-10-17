@@ -37,3 +37,5 @@ button {
 input, textarea {
   font-family: var(--font-main);
 }
+.rise-icon { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+.sidebar__link, .sidebar__logout, .sidebar__badge, .mission-card__recompensas > span { display: inline-flex; align-items: center; gap: 8px; }

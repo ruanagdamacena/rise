@@ -93,6 +93,10 @@
 /* Lado direito — botão ou label */
 .mission-card__action {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
 }
 
 .mission-card__btn {
@@ -107,6 +111,21 @@
 
 .mission-card__btn:hover {
   background-color: var(--color-primary-dim);
+}
+
+.mission-card__btn--excluir {
+  background-color: transparent;
+  color: #f87171;
+  border: 1px solid #f8717166;
+}
+
+.mission-card__btn--excluir:hover {
+  background-color: #f871711a;
+}
+
+.mission-card__btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
 }
 
 /* Label quando missão já foi concluída */

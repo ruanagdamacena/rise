@@ -4,6 +4,7 @@ import RotaProtegida from './components/RotaProtegida/RotaProtegida'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Missoes from './pages/Missoes/Missoes'
 import Perfil from './pages/Perfil/Perfil'
+import EditarPerfil from './pages/Perfil/EditarPerfil'
 import Conquistas from './pages/Conquistas/Conquistas'
 import Login from './pages/Login/Login'
 import Cadastro from './pages/Cadastro/Cadastro'
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/missoes" element={<Missoes />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/perfil/editar" element={<EditarPerfil />} />
           <Route path="/conquistas" element={<Conquistas />} />
         </Route>
       </Route>

@@ -15,6 +15,8 @@ app.use(express.json());
 // Rotas
 app.use('/api/auth', authRoutes);
 app.use('/api/missoes', missoesRoutes);
+app.use('/api/usuario', require('./routes/usuarioRoutes'));
+app.use('/api/conquistas', require('./routes/conquistasRoutes'));
 // app.use('/api/usuario', usuarioRoutes);
 // app.use('/api/conquistas', conquistasRoutes);
 

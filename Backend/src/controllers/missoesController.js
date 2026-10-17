@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 const { calcularRecompensa } = require('../services/recompensas');
 const { aplicarXp, calcularSequencia } = require('../services/gameService');
+const { registrarMissao, atualizarConquistas, diaBrasil } = require('../services/conquistasService');
 
 // Ajuste esta lista se os valores usados no ModalNovaMissao do frontend mudarem.
 const TIPOS_VALIDOS = ['Diária', 'Semanal', 'Especial'];
@@ -43,14 +44,22 @@ async function criar(req, res) {
       return res.status(400).json({ erro: erroValidacao.message });
     }
 
-    const [resultado] = await pool.query(
+    const conexao = await pool.getConnection();
+    try {
+    await conexao.beginTransaction();
+    await conexao.query('SELECT id FROM usuarios WHERE id = ? FOR UPDATE', [usuario_id]);
+    const [resultado] = await conexao.query(
       `INSERT INTO missoes (usuario_id, titulo, descricao, categoria, tipo, dificuldade, xp, gold)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [usuario_id, titulo, descricao || null, categoria, tipo, dificuldade, recompensa.xp, recompensa.gold]
     );
 
-    const [linhas] = await pool.query('SELECT * FROM missoes WHERE id = ?', [resultado.insertId]);
+    const [linhas] = await conexao.query('SELECT * FROM missoes WHERE id = ?', [resultado.insertId]);
+    await registrarMissao(conexao, linhas[0]);
+    await conexao.commit();
     return res.status(201).json(linhas[0]);
+    } catch (erro) { await conexao.rollback(); throw erro; }
+    finally { conexao.release(); }
   } catch (erro) {
     console.error('Erro ao criar missão:', erro);
     return res.status(500).json({ erro: 'Erro interno ao criar missão.' });
@@ -62,27 +71,33 @@ async function criar(req, res) {
 // que nunca fique "pela metade" (ex: missão marcada como concluída mas XP
 // não foi somado, por causa de uma falha no meio).
 async function concluir(req, res) {
-  const conexao = await pool.getConnection();
+  let conexao;
   try {
+    conexao = await pool.getConnection();
+    await conexao.beginTransaction();
+    const [usuariosEncontrados] = await conexao.query('SELECT * FROM usuarios WHERE id = ? FOR UPDATE', [req.usuario.id]);
+    if (!usuariosEncontrados.length) { await conexao.rollback(); return res.status(404).json({ erro: 'Usuário não encontrado.' }); }
+    const usuario = usuariosEncontrados[0];
     const { id } = req.params;
 
-    const [missoesEncontradas] = await conexao.query('SELECT * FROM missoes WHERE id = ?', [id]);
+    const [missoesEncontradas] = await conexao.query('SELECT * FROM missoes WHERE id = ? FOR UPDATE', [id]);
     if (missoesEncontradas.length === 0) {
+      await conexao.rollback();
       return res.status(404).json({ erro: 'Missão não encontrada.' });
     }
     const missao = missoesEncontradas[0];
 
     if (missao.usuario_id !== req.usuario.id) {
+      await conexao.rollback();
       return res.status(403).json({ erro: 'Você não tem permissão para concluir esta missão.' });
     }
 
     // Trava contra completar a mesma missão duas vezes e "farmar" XP/gold infinito.
     if (missao.concluida) {
+      await conexao.rollback();
       return res.status(400).json({ erro: 'Esta missão já foi concluída anteriormente.' });
     }
 
-    const [usuariosEncontrados] = await conexao.query('SELECT * FROM usuarios WHERE id = ?', [req.usuario.id]);
-    const usuario = usuariosEncontrados[0];
 
     const progressoXp = aplicarXp(usuario, missao.xp);
 
@@ -95,8 +110,6 @@ async function concluir(req, res) {
         : { sequencia: usuario.sequencia, ultima_missao_em: usuario.ultima_missao_em };
 
     const novoGold = usuario.gold + missao.gold;
-
-    await conexao.beginTransaction();
 
     await conexao.query(
       'UPDATE missoes SET concluida = 1, concluido_em = NOW() WHERE id = ?',
@@ -118,23 +131,26 @@ async function concluir(req, res) {
       ]
     );
 
-    await conexao.commit();
+    await registrarMissao(conexao, missao);
+    await conexao.query('UPDATE historico_missoes SET concluido_dia = ? WHERE missao_id = ?', [diaBrasil(), missao.id]);
+    await atualizarConquistas(conexao, { ...usuario, ...progressoXp, ...progressoSequencia, gold: novoGold });
 
     const [usuarioAtualizado] = await conexao.query('SELECT * FROM usuarios WHERE id = ?', [req.usuario.id]);
     const [missaoAtualizada] = await conexao.query('SELECT * FROM missoes WHERE id = ?', [id]);
     const { senha, ...usuarioSemSenha } = usuarioAtualizado[0];
+    await conexao.commit();
 
     return res.json({ missao: missaoAtualizada[0], usuario: usuarioSemSenha });
   } catch (erro) {
     try {
-      await conexao.rollback();
-    } catch (_) {
+      if (conexao) await conexao.rollback();
+    } catch {
       // se a transação nem tinha começado ainda, o rollback pode reclamar — pode ignorar
     }
     console.error('Erro ao concluir missão:', erro);
     return res.status(500).json({ erro: 'Erro interno ao concluir missão.' });
   } finally {
-    conexao.release();
+    if (conexao) conexao.release();
   }
 }
 

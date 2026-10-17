@@ -31,20 +31,22 @@ function aplicarXp(usuario, xpGanho) {
 //  - Última missão foi antes de ontem -> sequência volta pra 1 (quebrou o ritmo).
 function calcularSequencia(sequenciaAtual, ultimaMissaoEm) {
   const hoje = new Date();
-  const hojeStr = hoje.toISOString().slice(0, 10); // formato "AAAA-MM-DD"
+  const { diaBrasil } = require('./conquistasService');
+  const hojeStr = diaBrasil(hoje);
 
   if (!ultimaMissaoEm) {
     return { sequencia: 1, ultima_missao_em: hojeStr };
   }
 
-  const ultimaStr = new Date(ultimaMissaoEm).toISOString().slice(0, 10);
+  const ultimaStr = typeof ultimaMissaoEm === 'string' ? ultimaMissaoEm.slice(0, 10)
+    : `${ultimaMissaoEm.getFullYear()}-${String(ultimaMissaoEm.getMonth() + 1).padStart(2, '0')}-${String(ultimaMissaoEm.getDate()).padStart(2, '0')}`;
 
   if (ultimaStr === hojeStr) {
     return { sequencia: sequenciaAtual, ultima_missao_em: hojeStr };
   }
 
-  const ontem = new Date(hoje);
-  ontem.setDate(ontem.getDate() - 1);
+  const ontem = new Date(`${hojeStr}T12:00:00Z`);
+  ontem.setUTCDate(ontem.getUTCDate() - 1);
   const ontemStr = ontem.toISOString().slice(0, 10);
 
   if (ultimaStr === ontemStr) {
